@@ -52,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       children: <Widget>[
         FlatButton(
+          key: Key('getKeyPair'),
           child: const Text('Press to generate curve25519 key-pair'),
           onPressed: _getKeyPair,
           color: Colors.blue,
@@ -59,23 +60,26 @@ class _MyHomePageState extends State<MyHomePage> {
         Text('Public key:\n$publicKey'),
         Text('Secret Key or Pair:\n$secretKey'),
         FlatButton(
+          key: Key('getSecret'),
           child: const Text('Get shared secret'),
           onPressed: _getSecret,
           color: Colors.blue,
         ),
         Text('Shared secret:\n$_secret'),
         FlatButton(
+          key: Key('getSignature'),
           child: const Text('Get Signature'),
           onPressed: _getSignature,
           color: Colors.blue,
         ),
         Text('signature:\n$_signature'),
         FlatButton(
+          key: Key('verifySignature'),
           child: const Text('Verify signature'),
           onPressed: _verifySignature,
           color: Colors.blue,
         ),
-        Text('Is valid signature?:\n$_valid'),    
+        Text('Is valid signature?:\n$_valid', key: Key('isValidSignature')),
         const Padding(
           padding: const EdgeInsets.all(30.0),
         )                 
