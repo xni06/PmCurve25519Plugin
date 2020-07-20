@@ -12,10 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'pm_curve25519_plugin',
       theme: ThemeData(
-        brightness: Brightness.dark,
-        accentColor: Colors.lightBlue,
-        accentColorBrightness: Brightness.light
-      ),
+          brightness: Brightness.dark,
+          accentColor: Colors.lightBlue,
+          accentColorBrightness: Brightness.light),
       home: MyHomePage(),
     );
   }
@@ -27,8 +26,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const platform = const MethodChannel('PmCurve25519');
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
       body: testCrypto(context),
     );
   }
+
   Uint8List publicKey;
   Uint8List _secret;
   Uint8List secretKey;
   Uint8List _signature;
   bool _valid;
 
-  Widget testCrypto(BuildContext context){
-   // print(publicKey.lengthInBytes);
-   // print(secretKey.lengthInBytes);
+  Widget testCrypto(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       children: <Widget>[
@@ -82,25 +78,29 @@ class _MyHomePageState extends State<MyHomePage> {
         Text('Is valid signature?:\n$_valid', key: Key('isValidSignature')),
         const Padding(
           padding: const EdgeInsets.all(30.0),
-        )                 
+        )
       ],
     );
   }
+
   Future<void> _getSecret() async {
-    Uint8List sharedSecret = await PmCurve25519.getSharedSecret(publicKey, secretKey);
+    Uint8List sharedSecret =
+        await PmCurve25519.getSharedSecret(publicKey, secretKey);
 
     setState(() {
-      _secret = sharedSecret; 
+      _secret = sharedSecret;
     });
   }
+
   Future<void> _getKeyPair() async {
     PmKeyPair getPair = await PmCurve25519.generateIdentityPair();
     setState(() {
-     publicKey = getPair.publicKey;
-     secretKey = getPair.secretKey;
+      publicKey = getPair.publicKey;
+      secretKey = getPair.secretKey;
     });
   }
-  Future<void> _getSignature()async {
+
+  Future<void> _getSignature() async {
     String fakeMessage = "Hello world";
     Uint8List message = Uint8List.fromList(fakeMessage.codeUnits);
     Uint8List signature = await PmCurve25519.getSignature(message, secretKey);
@@ -108,10 +108,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _signature = signature;
     });
   }
-  Future<void> _verifySignature()async {
+
+  Future<void> _verifySignature() async {
     String fakeMessage = "Hello world";
     Uint8List message = Uint8List.fromList(fakeMessage.codeUnits);
-    bool valid = await PmCurve25519.verifySignature(publicKey, message, _signature);
+    bool valid =
+        await PmCurve25519.verifySignature(publicKey, message, _signature);
     setState(() {
       _valid = valid;
     });
